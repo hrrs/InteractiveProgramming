@@ -25,8 +25,26 @@ while carryOn:
 
     # --- Game logic should go here
 
+    #actions the player can do, position on screen
+class Head:
+    x = 10
+    y = 10
+    speed = 1
+
+    def goright(self):
+        self.x = self.x + self.speed
+
+    def goleft(self):
+        self.x = self.x - self.speed
+
+    def goup(self):
+        self.y = self.y + self.speed
+
+    def godown(self):
+        self.y = self.y - self.speed
+
     # --- Drawing code should go here
-    # First, clear the screen to white. 
+    # First, clear the screen to white.
     screen.fill(WHITE)
     #The you can draw different shapes and lines or add text to your background stage.
     pygame.draw.rect(screen, RED, [55, 200, 100, 70],0)
@@ -36,7 +54,7 @@ while carryOn:
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
-     
+
     # --- Limit to 60 frames per second
     clock.tick(60)
 
