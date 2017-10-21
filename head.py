@@ -28,12 +28,17 @@ class Head(object):
         '''
     pass
 
-
+### Directions
+UP = (0,-1)
+DOWN = (0,1)
+LEFT = (-1,0)
+RIGHT = (1,0)
 
 HEAD_WIDTH = 30
 HEAD_HEIGHT = 30
 headSpeedX = 1
-p1head = pygame.Rect(320, 240, HEAD_WIDTH, HEAD_HEIGHT)
+# p1head = pygame.Rect(320, 240, HEAD_WIDTH, HEAD_HEIGHT)
+p1head = Head(320,240,UP)
 HEAD_COLOR = pygame.color.Color("red")
 clock = pygame.time.Clock()
 
@@ -47,33 +52,38 @@ while running:
     # clear screen with black color
     clock.tick(30)
     screen.fill( (0,0,0) )     #screen.fill(BLACK)
-    p1head.left = p1head.left + headSpeedX*direction[0]
-    p1head.top = p1head.top + headSpeedX*direction[1]
+    p1head.x = p1head.x + headSpeedX*direction[0]
+    p1head.y = p1head.y + headSpeedX*direction[1]
+    # p1head.left = p1head.left + headSpeedX*direction[0]
+    # p1head.top = p1head.top + headSpeedX*direction[1]
     for event in pygame.event.get():
         if event.type == KEYDOWN:
             if event.key == K_LEFT:
-                direction = (-1,0)
+                direction = LEFT
                 #p1head.left = p1head.left - headSpeedX * 10
             if event.key == K_RIGHT:
-                direction = (1,0)
+                direction = RIGHT
                 #p1head.left = p1head.left + headSpeedX * 10
             if event.key == K_UP:
-                direction = (0,-1)
+                direction = UP
                 #p1head.top = p1head.top - headSpeedX * 10
             if event.key == K_DOWN:
-                direction = (0,1)
+                direction = DOWN
                 #p1head.top = p1head.top + headSpeedX * 10
+        '''
         if p1head.left <= 0 or p1head.left >= 640:
             #screen.blit(textsurface,(0,0))
             running = False
         if p1head.top <= 0 or p1head.top >= 480:
             running = False
+        '''    
         if event.type == QUIT:                                         #write this one indent out to quit!
             pygame.quit()
             sys.exit()
             pygame.display.update()
 
     # draw the paddle
-    screen.fill( HEAD_COLOR, p1head );
+    p1head.sprite.center = p1head.x,p1head.y
+    screen.fill( HEAD_COLOR, p1head.sprite );
 
     pygame.display.update()
