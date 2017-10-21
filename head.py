@@ -5,6 +5,30 @@ pygame.init()
 screen = pygame.display.set_mode((640, 480))
 pygame.display.set_caption('Head Movement')
 
+class Head(object):
+
+    def __init__(self,x,y,direction):
+        
+        self.x = x
+        self.y = y
+        self.direction = direction
+        self.size = 30
+        self.speed = 10
+        self.sprite = pygame.Rect(x,y,self.size,self.size)
+
+    def __repr__(self):
+
+        return 'Head position: ('+str(self.x)+','+str(self.y)+') direction: '+str(direction)
+
+    def step():
+        '''
+        pos = sprite.center
+        vel = self.direction
+        self.sprite.center = sprite.center[0]+self.direction[0]*self.speed
+        '''
+    pass
+
+
 
 HEAD_WIDTH = 30
 HEAD_HEIGHT = 30
@@ -13,9 +37,9 @@ p1head = pygame.Rect(320, 240, HEAD_WIDTH, HEAD_HEIGHT)
 HEAD_COLOR = pygame.color.Color("red")
 clock = pygame.time.Clock()
 
-pygame.font.init()
-myfont = pygame.font.SysFont('Comic Sans MS', 30)
-textsurface = myfont.render('You lost', False, (0, 0, 0))
+#pygame.font.init()
+#myfont = pygame.font.SysFont('Comic Sans MS', 30)
+#textsurface = myfont.render('You lost', False, (0, 0, 0))
 
 direction = (0,0) #right, down
 running = True
@@ -40,7 +64,7 @@ while running:
                 direction = (0,1)
                 #p1head.top = p1head.top + headSpeedX * 10
         if p1head.left <= 0 or p1head.left >= 640:
-            screen.blit(textsurface,(0,0))
+            #screen.blit(textsurface,(0,0))
             running = False
         if p1head.top <= 0 or p1head.top >= 480:
             running = False
