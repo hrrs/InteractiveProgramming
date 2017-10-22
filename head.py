@@ -82,7 +82,7 @@ textsurface = myfont.render('You lost', False, (0, 0, 0))
 running = True
 while running:
 
-    clock.tick(5) # Controls play speed
+    clock.tick(3) # Controls play speed
     screen.fill(BLACK)
 
     # Get keyboard input
@@ -94,21 +94,24 @@ while running:
             if event.key == K_DOWN : p1.direction = DOWN
             if event.key == K_g : p1.grow()
 
+
         # Quit if window closed
         if event.type == QUIT:
+            print('game ended')
             pygame.quit()
             sys.exit()
             pygame.display.update()
 
-    if p1.pos[0] <= 0 or p1.pos[0] >= screen_size[1]:
-        screen.blit(textsurface,(0,0))
+    if p1.pos[0] <= 0 or p1.pos[0] >= screen_size[0]:
+        #screen.blit(textsurface,(0,0))
         running = False
-    if p1.pos[0] <= 0 or p1.pos[1] >= 480:
+    if p1.pos[1] <= 0 or p1.pos[1] >= screen_size[1]:
         running = False
 
 
 
     # Act and render
-    p1.draw(screen)
     p1.step()
+    p1.draw(screen)
+
     pygame.display.update()
