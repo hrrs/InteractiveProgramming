@@ -1,32 +1,56 @@
 import pygame, sys
 from pygame import *
 
-pygame.init()
-screen = pygame.display.set_mode((640, 480))
-pygame.display.set_caption('Head Movement')
-
-class Head(object):
+class Player(object):
+    '''
+    Player's snake object handling head position and direction, body part position and order, and moving and drawing its parts.
+    '''
 
     def __init__(self,x,y,direction):
         
-        self.x = x
-        self.y = y
+        self.pos = x, y
         self.direction = direction
-        self.size = 30
-        self.speed = 10
-        self.sprite = pygame.Rect(x,y,self.size,self.size)
+        self.size = 20
+        self.body = []
+
+        ### Colors
+        self.PURPLE = (128,0,128)
+        self.BLUE = (128,128,255)
+
 
     def __repr__(self):
 
-        return 'Head position: ('+str(self.x)+','+str(self.y)+') direction: '+str(direction)
+        return 'Head position: '+str(self.pos)+' direction: '+str(self.direction)
 
-    def step():
+    def step(self):
         '''
-        pos = sprite.center
-        vel = self.direction
-        self.sprite.center = sprite.center[0]+self.direction[0]*self.speed
+        Advances the player's snake one move forward.
         '''
-    pass
+        if len(self.body)>0:
+            self.body.pop(0)
+            self.body.append(self.pos)
+        direction = self.direction
+        size = self.size
+        self.pos = (self.pos[0]+direction[0]*size,self.pos[1]+direction[1]*size)
+
+    def draw(self,surface):
+        '''
+        Draws the player's snake on the surface given.
+        '''
+        pygame.draw.circle(surface,self.PURPLE,self.pos,int(self.size/2))
+        for n in self.body:
+            pygame.draw.circle(surface,self.BLUE,n,int(self.size/2))
+
+    def grow(self):
+        '''
+        Extends the length of the body by adding an element at the current head position.
+        '''
+        self.body.append(self.pos)
+
+
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+pygame.display.set_caption('Head Movement')
 
 ### Directions
 UP = (0,-1)
@@ -37,8 +61,7 @@ RIGHT = (1,0)
 HEAD_WIDTH = 30
 HEAD_HEIGHT = 30
 headSpeedX = 1
-# p1head = pygame.Rect(320, 240, HEAD_WIDTH, HEAD_HEIGHT)
-p1head = Head(320,240,UP)
+p1head = Player(320,240,UP)
 HEAD_COLOR = pygame.color.Color("red")
 clock = pygame.time.Clock()
 
@@ -49,27 +72,27 @@ clock = pygame.time.Clock()
 direction = (0,0) #right, down
 running = True
 while running:
-    # clear screen with black color
-    clock.tick(30)
+    # Clear screen with black color
+    clock.tick(5)
     screen.fill( (0,0,0) )     #screen.fill(BLACK)
-    p1head.x = p1head.x + headSpeedX*direction[0]
-    p1head.y = p1head.y + headSpeedX*direction[1]
-    # p1head.left = p1head.left + headSpeedX*direction[0]
-    # p1head.top = p1head.top + headSpeedX*direction[1]
+
+    # Get keyboard input
     for event in pygame.event.get():
         if event.type == KEYDOWN:
             if event.key == K_LEFT:
-                direction = LEFT
+                p1head.direction = LEFT
                 #p1head.left = p1head.left - headSpeedX * 10
             if event.key == K_RIGHT:
-                direction = RIGHT
+                p1head.direction = RIGHT
                 #p1head.left = p1head.left + headSpeedX * 10
             if event.key == K_UP:
-                direction = UP
+                p1head.direction = UP
                 #p1head.top = p1head.top - headSpeedX * 10
             if event.key == K_DOWN:
-                direction = DOWN
+                p1head.direction = DOWN
                 #p1head.top = p1head.top + headSpeedX * 10
+            if event.key == K_g:
+                p1head.grow()
         '''
         if p1head.left <= 0 or p1head.left >= 640:
             #screen.blit(textsurface,(0,0))
@@ -82,8 +105,7 @@ while running:
             sys.exit()
             pygame.display.update()
 
-    # draw the paddle
-    p1head.sprite.center = p1head.x,p1head.y
-    screen.fill( HEAD_COLOR, p1head.sprite );
+    p1head.draw(screen)
+    p1head.step()
 
     pygame.display.update()
