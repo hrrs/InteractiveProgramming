@@ -6,9 +6,9 @@ class Player(object):
     Player's snake object handling head position and direction, body part position and order, and moving and drawing its parts.
     '''
 
-    def __init__(self,x,y,direction):
+    def __init__(self,pos,direction):
         
-        self.pos = x, y
+        self.pos = pos
         self.direction = direction
         self.size = 20
         self.body = []
@@ -47,65 +47,68 @@ class Player(object):
         '''
         self.body.append(self.pos)
 
+screen_size = (640, 480)
+screen_center = (int(screen_size[0]/2),int(screen_size[1]/2))
 
+### Initiallizes the game environment
 pygame.init()
-screen = pygame.display.set_mode((640, 480))
+screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption('Head Movement')
+clock = pygame.time.Clock()
+#for some reason the font part doesn't work on Harris's computer
+#pygame.font.init()
 
 ### Directions
+STAY = (0,0)
 UP = (0,-1)
 DOWN = (0,1)
 LEFT = (-1,0)
 RIGHT = (1,0)
 
-HEAD_WIDTH = 30
-HEAD_HEIGHT = 30
-headSpeedX = 1
-p1head = Player(320,240,UP)
-HEAD_COLOR = pygame.color.Color("red")
-clock = pygame.time.Clock()
+### Colors
+BLACK = (0,0,0)
+GREEN = (0,255,0)
 
-#pygame.font.init()
+### Adds player(s)
+p1 = Player((320,240),STAY)
+
+### Position of fruit
+fruit = ()
+
 #myfont = pygame.font.SysFont('Comic Sans MS', 30)
 #textsurface = myfont.render('You lost', False, (0, 0, 0))
 
-direction = (0,0) #right, down
+### Runtime script
 running = True
 while running:
-    # Clear screen with black color
-    clock.tick(5)
-    screen.fill( (0,0,0) )     #screen.fill(BLACK)
+
+    clock.tick(5) # Controls play speed
+    screen.fill(BLACK)
 
     # Get keyboard input
     for event in pygame.event.get():
         if event.type == KEYDOWN:
-            if event.key == K_LEFT:
-                p1head.direction = LEFT
-                #p1head.left = p1head.left - headSpeedX * 10
-            if event.key == K_RIGHT:
-                p1head.direction = RIGHT
-                #p1head.left = p1head.left + headSpeedX * 10
-            if event.key == K_UP:
-                p1head.direction = UP
-                #p1head.top = p1head.top - headSpeedX * 10
-            if event.key == K_DOWN:
-                p1head.direction = DOWN
-                #p1head.top = p1head.top + headSpeedX * 10
-            if event.key == K_g:
-                p1head.grow()
-        '''
-        if p1head.left <= 0 or p1head.left >= 640:
-            #screen.blit(textsurface,(0,0))
-            running = False
-        if p1head.top <= 0 or p1head.top >= 480:
-            running = False
-        '''    
-        if event.type == QUIT:                                         #write this one indent out to quit!
+            if event.key == K_LEFT : p1.direction = LEFT
+            if event.key == K_RIGHT : p1.direction = RIGHT       
+            if event.key == K_UP : p1.direction = UP  
+            if event.key == K_DOWN : p1.direction = DOWN
+            if event.key == K_g : p1.grow()            
+
+        # Quit if window closed
+        if event.type == QUIT:
             pygame.quit()
             sys.exit()
             pygame.display.update()
+        
+    if p1.pos[0] <= 0 or p1.pos[0] >= screen_size[1]:
+        #screen.blit(textsurface,(0,0))
+        running = False
+    if p1.pos[0] <= 0 or p1.pos[1] >= 480:
+        running = False
+           
 
-    p1head.draw(screen)
-    p1head.step()
 
+    # Act and render
+    p1.draw(screen)
+    p1.step()
     pygame.display.update()
