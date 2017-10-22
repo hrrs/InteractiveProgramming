@@ -68,6 +68,7 @@ RIGHT = (1,0)
 ### Colors
 BLACK = (0,0,0)
 GREEN = (0,255,0)
+WHITE = (255,255,255)
 
 ### Adds player(s)
 p1 = Player((320,240),STAY)
@@ -75,8 +76,9 @@ p1 = Player((320,240),STAY)
 ### Position of fruit
 fruit = ()
 
-myfont = pygame.font.SysFont('Comic Sans MS', 30)
-textsurface = myfont.render('You lost', False, (0, 0, 0))
+# myfont = pygame.font.SysFont('Comic Sans MS', 30)
+# textsurface = myfont.render('You lost', False, (0, 0, 0))
+font = pygame.font.SysFont("Lucida Sans Typewriter", 50)
 
 ### Runtime script
 running = True
@@ -103,9 +105,24 @@ while running:
             pygame.display.update()
 
     if p1.pos[0] <= 0 or p1.pos[0] >= screen_size[0]:
-        #screen.blit(textsurface,(0,0))
+        text1 = font.render("YOUR SCORE!", True, WHITE)
+        text2 = font.render(str(len(p1.body)), True, WHITE)
+
+        screen.blit(text1, (150, screen_size[1]/2-100))
+        screen.blit(text2, (300, screen_size[1]/2+50))
+        pygame.display.update()
+
+        pygame.time.wait(5000)
         running = False
     if p1.pos[1] <= 0 or p1.pos[1] >= screen_size[1]:
+        text1 = font.render("YOUR SCORE!", True, WHITE)
+        text2 = font.render(str(len(p1.body)), True, WHITE)
+
+        screen.blit(text1, (150, screen_size[1]/2-100))
+        screen.blit(text2, (300, screen_size[1]/2+50))
+        pygame.display.update()
+
+        pygame.time.wait(5000)
         running = False
 
 
