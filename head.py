@@ -7,7 +7,7 @@ class Player(object):
     '''
 
     def __init__(self,pos,direction):
-        
+
         self.pos = pos
         self.direction = direction
         self.size = 20
@@ -75,8 +75,8 @@ p1 = Player((320,240),STAY)
 ### Position of fruit
 fruit = ()
 
-#myfont = pygame.font.SysFont('Comic Sans MS', 30)
-#textsurface = myfont.render('You lost', False, (0, 0, 0))
+myfont = pygame.font.SysFont('Comic Sans MS', 30)
+textsurface = myfont.render('You lost', False, (0, 0, 0))
 
 ### Runtime script
 running = True
@@ -89,23 +89,23 @@ while running:
     for event in pygame.event.get():
         if event.type == KEYDOWN:
             if event.key == K_LEFT : p1.direction = LEFT
-            if event.key == K_RIGHT : p1.direction = RIGHT       
-            if event.key == K_UP : p1.direction = UP  
+            if event.key == K_RIGHT : p1.direction = RIGHT
+            if event.key == K_UP : p1.direction = UP
             if event.key == K_DOWN : p1.direction = DOWN
-            if event.key == K_g : p1.grow()            
+            if event.key == K_g : p1.grow()
 
         # Quit if window closed
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
             pygame.display.update()
-        
+
     if p1.pos[0] <= 0 or p1.pos[0] >= screen_size[1]:
-        #screen.blit(textsurface,(0,0))
+        screen.blit(textsurface,(0,0))
         running = False
     if p1.pos[0] <= 0 or p1.pos[1] >= 480:
         running = False
-           
+
 
 
     # Act and render
