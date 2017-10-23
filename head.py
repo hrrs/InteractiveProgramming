@@ -82,12 +82,12 @@ fruit = (x_fruit, y_fruit)
 
 ### Adding font and size for text in game
 font = pygame.font.SysFont("Lucida Sans Typewriter", 50)
-
+speed = 3
 ### Runtime script
 running = True
 while running:
 
-    clock.tick(3) # Controls play speed
+    clock.tick(speed) # Controls play speed
     screen.fill(BLACK)
 
     if (p1.pos[0], p1.pos[1]) in p1.body:
@@ -107,15 +107,17 @@ while running:
         x_fruit = random.randrange(20, 620, 20)
         y_fruit = random.randrange(20, 460, 20)
         fruit = (x_fruit, y_fruit)
+        if len(p1.body) in (2,4,7,10):
+            speed = speed + 1
 
 
     # Get keyboard input
     for event in pygame.event.get():
         if event.type == KEYDOWN:
-            if event.key == K_LEFT : p1.direction = LEFT
-            if event.key == K_RIGHT : p1.direction = RIGHT
-            if event.key == K_UP : p1.direction = UP
-            if event.key == K_DOWN : p1.direction = DOWN
+            if event.key == K_LEFT and p1.direction != RIGHT : p1.direction = LEFT
+            if event.key == K_RIGHT and p1.direction != LEFT : p1.direction = RIGHT
+            if event.key == K_UP and p1.direction != DOWN : p1.direction = UP
+            if event.key == K_DOWN and p1.direction != UP : p1.direction = DOWN
             if event.key == K_g : p1.grow()
 
 
