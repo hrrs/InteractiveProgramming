@@ -48,6 +48,23 @@ class Player(object):
         '''
         self.body.append(self.pos)
 
+def final_screen():
+    text1 = font.render("YOU LOST", True, WHITE)
+    text2 = font.render("YOUR SCORE", True, WHITE)
+    text3 = font.render(str(len(p1.body)), True, WHITE)
+
+    screen.blit(text1, (180, screen_size[1]/2-100))
+    screen.blit(text2, (150, screen_size[1]/2))
+    screen.blit(text3, (280, screen_size[1]/2+100))
+    pygame.display.update()
+
+    pygame.time.wait(5000)
+    running = False
+
+    pygame.quit()
+    sys.exit()
+
+
 screen_size = (640, 480)
 screen_center = (int(screen_size[0]/2),int(screen_size[1]/2))
 
@@ -91,16 +108,7 @@ while running:
     screen.fill(BLACK)
 
     if (p1.pos[0], p1.pos[1]) in p1.body:
-        text1 = font.render("YOU LOST", True, WHITE)
-        text2 = font.render("YOUR SCORE", True, WHITE)
-        text3 = font.render(str(len(p1.body)), True, WHITE)
-
-        screen.blit(text1, (180, screen_size[1]/2-100))
-        screen.blit(text2, (150, screen_size[1]/2))
-        screen.blit(text3, (280, screen_size[1]/2+100))
-        pygame.display.update()
-        pygame.time.wait(5000)
-        running = False
+        final_screen()
 
     if (p1.pos) == fruit:
         p1.grow()
@@ -129,29 +137,10 @@ while running:
             pygame.display.update()
 
     if p1.pos[0] <= 0 or p1.pos[0] >= screen_size[0]:
-        text1 = font.render("YOU LOST", True, WHITE)
-        text2 = font.render("YOUR SCORE", True, WHITE)
-        text3 = font.render(str(len(p1.body)), True, WHITE)
+        final_screen()
 
-        screen.blit(text1, (180, screen_size[1]/2-100))
-        screen.blit(text2, (150, screen_size[1]/2))
-        screen.blit(text3, (280, screen_size[1]/2+100))
-        pygame.display.update()
-
-        pygame.time.wait(5000)
-        running = False
     if p1.pos[1] <= 0 or p1.pos[1] >= screen_size[1]:
-        text1 = font.render("YOU LOST", True, WHITE)
-        text2 = font.render("YOUR SCORE", True, WHITE)
-        text3 = font.render(str(len(p1.body)), True, WHITE)
-
-        screen.blit(text1, (180, screen_size[1]/2-100))
-        screen.blit(text2, (150, screen_size[1]/2))
-        screen.blit(text3, (280, screen_size[1]/2+100))
-        pygame.display.update()
-
-        pygame.time.wait(5000)
-        running = False
+        final_screen()
 
 
     if running == True:
