@@ -37,9 +37,9 @@ class Player(object):
         '''
         Draws the player's snake on the surface given.
         '''
-        pygame.draw.circle(surface,self.PURPLE,self.pos,int(self.size/2))
         for n in self.body:
             pygame.draw.circle(surface,self.BLUE,n,int(self.size/2))
+        pygame.draw.circle(surface,self.PURPLE,self.pos,int(self.size/2))
 
     def grow(self):
         '''
@@ -87,6 +87,18 @@ while running:
     clock.tick(3) # Controls play speed
     screen.fill(BLACK)
 
+    if (p1.pos[0], p1.pos[1]) in p1.body:
+        text1 = font.render("YOU LOST", True, WHITE)
+        text2 = font.render("YOUR SCORE", True, WHITE)
+        text3 = font.render(str(len(p1.body)), True, WHITE)
+
+        screen.blit(text1, (180, screen_size[1]/2-100))
+        screen.blit(text2, (150, screen_size[1]/2))
+        screen.blit(text3, (280, screen_size[1]/2+100))
+        pygame.display.update()
+        pygame.time.wait(5000)
+        running = False
+
     # Get keyboard input
     for event in pygame.event.get():
         if event.type == KEYDOWN:
@@ -105,30 +117,34 @@ while running:
             pygame.display.update()
 
     if p1.pos[0] <= 0 or p1.pos[0] >= screen_size[0]:
-        text1 = font.render("YOUR SCORE!", True, WHITE)
-        text2 = font.render(str(len(p1.body)), True, WHITE)
+        text1 = font.render("YOU LOST", True, WHITE)
+        text2 = font.render("YOUR SCORE", True, WHITE)
+        text3 = font.render(str(len(p1.body)), True, WHITE)
 
-        screen.blit(text1, (150, screen_size[1]/2-100))
-        screen.blit(text2, (300, screen_size[1]/2+50))
+        screen.blit(text1, (180, screen_size[1]/2-100))
+        screen.blit(text2, (150, screen_size[1]/2))
+        screen.blit(text3, (280, screen_size[1]/2+100))
         pygame.display.update()
 
         pygame.time.wait(5000)
         running = False
     if p1.pos[1] <= 0 or p1.pos[1] >= screen_size[1]:
-        text1 = font.render("YOUR SCORE!", True, WHITE)
-        text2 = font.render(str(len(p1.body)), True, WHITE)
+        text1 = font.render("YOU LOST", True, WHITE)
+        text2 = font.render("YOUR SCORE", True, WHITE)
+        text3 = font.render(str(len(p1.body)), True, WHITE)
 
-        screen.blit(text1, (150, screen_size[1]/2-100))
-        screen.blit(text2, (300, screen_size[1]/2+50))
+        screen.blit(text1, (180, screen_size[1]/2-100))
+        screen.blit(text2, (150, screen_size[1]/2))
+        screen.blit(text3, (280, screen_size[1]/2+100))
         pygame.display.update()
 
         pygame.time.wait(5000)
         running = False
 
 
-
-    # Act and render
-    p1.step()
-    p1.draw(screen)
+    if running == True:
+        # Act and render
+        p1.step()
+        p1.draw(screen)
 
     pygame.display.update()
