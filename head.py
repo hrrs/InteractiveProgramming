@@ -55,10 +55,12 @@ def final_screen():
     text1 = font.render("GAME OVER", True, WHITE)
     text2 = font.render("YOUR SCORE", True, WHITE)
     text3 = font.render(str(len(p1.body)), True, WHITE)
+    text4 = font.render(str(len(p2.body)), True, WHITE)
 
     screen.blit(text1, (180, screen_size[1]/2-100))
-    screen.blit(text2, (150, screen_size[1]/2))
-    screen.blit(text3, (280, screen_size[1]/2+100))
+    screen.blit(text2, (160, screen_size[1]/2))
+    screen.blit(text3, (400, screen_size[1]/2+100))
+    screen.blit(text4, (200, screen_size[1]/2+100))
     pygame.display.update()
 
     pygame.time.wait(5000)
@@ -93,8 +95,8 @@ WHITE = (255,255,255)
 RED = (255, 0, 0)
 
 ### Adds player(s)
-p1 = Player((280,240),STAY)
-p2 = Player((360,240),STAY)
+p1 = Player((360,240),STAY)
+p2 = Player((280,240),STAY)
 p2.body_color = WHITE
 p2.head_color = GREEN
 
