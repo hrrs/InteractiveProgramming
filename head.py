@@ -1,5 +1,6 @@
 import pygame, sys
 from pygame import *
+import random
 
 class Player(object):
     '''
@@ -69,15 +70,17 @@ RIGHT = (1,0)
 BLACK = (0,0,0)
 GREEN = (0,255,0)
 WHITE = (255,255,255)
+RED = (255, 0, 0)
 
 ### Adds player(s)
 p1 = Player((320,240),STAY)
 
 ### Position of fruit
-fruit = ()
+x_fruit = random.randrange(20, 620, 20)
+y_fruit = random.randrange(20, 460, 20)
+fruit = (x_fruit, y_fruit)
 
-# myfont = pygame.font.SysFont('Comic Sans MS', 30)
-# textsurface = myfont.render('You lost', False, (0, 0, 0))
+### Adding font and size for text in game
 font = pygame.font.SysFont("Lucida Sans Typewriter", 50)
 
 ### Runtime script
@@ -98,6 +101,13 @@ while running:
         pygame.display.update()
         pygame.time.wait(5000)
         running = False
+
+    if (p1.pos) == fruit:
+        p1.grow()
+        x_fruit = random.randrange(20, 620, 20)
+        y_fruit = random.randrange(20, 460, 20)
+        fruit = (x_fruit, y_fruit)
+
 
     # Get keyboard input
     for event in pygame.event.get():
@@ -146,5 +156,6 @@ while running:
         # Act and render
         p1.step()
         p1.draw(screen)
+        pygame.draw.circle(screen, RED, [x_fruit, y_fruit], 10)
 
     pygame.display.update()
