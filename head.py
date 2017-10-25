@@ -53,8 +53,8 @@ class Player(object):
         self.body.append(self.pos)
 
 def final_screen():
-    global p1
-    global p2
+    """ Function that prints GAME OVER text
+    """
     text1 = font.render("GAME OVER", True, WHITE)
     text2 = font.render("YOUR SCORE", True, WHITE)
     text3 = font.render(str(len(p1.body)), True, WHITE)
@@ -70,41 +70,13 @@ def final_screen():
     screen.blit(text6, (400, screen_size[1]/2+150))
     pygame.display.update()
 
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                if event.key == K_y : 
-                    running = False
+    pygame.time.wait(5000)
+    running = False
 
-                    ### Adds player(s)
-                    p1 = Player((360,240),STAY)
-                    p2 = Player((280,240),STAY)
-                    p2.body_color = GREEN
-                    p2.head_color = DARK_GREEN
+    pygame.quit()
+    sys.exit()
 
-                    ### Position of fruit
-                    x_fruit = random.randrange(20, 620, 20)
-                    y_fruit = random.randrange(20, 460, 20)
-                    fruit = (x_fruit, y_fruit)
-
-                    ### Set game speed
-                    speed = 3
-
-                if event.key == K_n :
-                    print('game ended')
-                    pygame.quit()
-                    sys.exit()
-                    pygame.display.update()
-
-            # Quit if window closed
-            if event.type == QUIT:
-                print('game ended')
-                pygame.quit()
-                sys.exit()
-                pygame.display.update()
-
-
+### Screen
 screen_size = (640, 480)
 screen_center = (int(screen_size[0]/2),int(screen_size[1]/2))
 
@@ -113,8 +85,6 @@ pygame.init()
 screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption('Head Movement')
 clock = pygame.time.Clock()
-#for some reason the font part doesn't work on Harris's computer
-#pygame.font.init()
 
 ### Directions
 STAY = (0,0)
@@ -141,11 +111,11 @@ x_fruit = random.randrange(20, 620, 20)
 y_fruit = random.randrange(20, 460, 20)
 fruit = (x_fruit, y_fruit)
 
-### Set game speed
-speed = 3
-
 ### Adding font and size for text in game
 font = pygame.font.SysFont("Lucida Sans Typewriter", 50)
+
+### Setting initial speed
+speed = 3
 
 ### Runtime script
 running = True
@@ -154,9 +124,15 @@ while running:
     clock.tick(speed) # Controls play speed
     screen.fill(BLACK)
 
-    if (p1.pos[0], p1.pos[1]) in p1.body:
+    # Game over if player runs into their own body
+    if (p1.pos) in p1.body:
         final_screen()
 
+    if (p2.pos) in p2.body:
+        final_screen()
+
+    # If player eat fruit, body will increase by one and new fruit will be randomed out
+    # When body lenght increases, increase speed
     if (p1.pos) == fruit:
         p1.grow()
         x_fruit = random.randrange(20, 620, 20)
@@ -164,9 +140,6 @@ while running:
         fruit = (x_fruit, y_fruit)
         if len(p1.body) in (2,4,7,10):
             speed = speed + 1
-
-    if (p2.pos) in p2.body:
-        final_screen()
 
     if (p2.pos) == fruit:
         p2.grow()
@@ -199,6 +172,7 @@ while running:
             sys.exit()
             pygame.display.update()
 
+    # Game over if players go out of the screen
     if p1.pos[0] <= 0 or p1.pos[0] >= screen_size[0]:
         final_screen()
 
