@@ -16,9 +16,10 @@ class Player(object):
 
         ### Colors
         PURPLE = (128,0,128)
+        DARK_BLUE = (0,0,204)
         BLUE = (128,128,255)
 
-        self.head_color = PURPLE
+        self.head_color = DARK_BLUE
         self.body_color = BLUE
 
 
@@ -56,11 +57,15 @@ def final_screen():
     text2 = font.render("YOUR SCORE", True, WHITE)
     text3 = font.render(str(len(p1.body)), True, WHITE)
     text4 = font.render(str(len(p2.body)), True, WHITE)
+    text5 = font.render("REPLAY?", True, WHITE)
+    text6 = font.render("Y/N", True, RED)
 
-    screen.blit(text1, (180, screen_size[1]/2-100))
-    screen.blit(text2, (160, screen_size[1]/2))
-    screen.blit(text3, (400, screen_size[1]/2+100))
-    screen.blit(text4, (200, screen_size[1]/2+100))
+    screen.blit(text1, (180, screen_size[1]/2-150))
+    screen.blit(text2, (170, screen_size[1]/2-50))
+    screen.blit(text3, (400, screen_size[1]/2+50))
+    screen.blit(text4, (200, screen_size[1]/2+50))
+    screen.blit(text5, (170, screen_size[1]/2+150))
+    screen.blit(text6, (400, screen_size[1]/2+150))
     pygame.display.update()
 
     pygame.time.wait(5000)
@@ -90,15 +95,16 @@ RIGHT = (1,0)
 
 ### Colors
 BLACK = (0,0,0)
-GREEN = (0,255,0)
+GREEN = (0,180,0)
 WHITE = (255,255,255)
 RED = (255, 0, 0)
+DARK_GREEN = (0,100,0)
 
 ### Adds player(s)
 p1 = Player((360,240),STAY)
 p2 = Player((280,240),STAY)
-p2.body_color = WHITE
-p2.head_color = GREEN
+p2.body_color = GREEN
+p2.head_color = DARK_GREEN
 
 ### Position of fruit
 x_fruit = random.randrange(20, 620, 20)
