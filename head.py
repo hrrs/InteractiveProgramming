@@ -55,6 +55,8 @@ class Player(object):
 def final_screen():
     """ Function that prints GAME OVER text
     """
+    global p1
+    global p2
     text1 = font.render("GAME OVER", True, WHITE)
     text2 = font.render("YOUR SCORE", True, WHITE)
     text3 = font.render(str(len(p1.body)), True, WHITE)
@@ -69,12 +71,40 @@ def final_screen():
     screen.blit(text5, (170, screen_size[1]/2+150))
     screen.blit(text6, (400, screen_size[1]/2+150))
     pygame.display.update()
+    
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == K_y : 
+                    running = False
 
-    pygame.time.wait(5000)
-    running = False
+                    ### Adds player(s)
+                    p1 = Player((360,240),STAY)
+                    p2 = Player((280,240),STAY)
+                    p2.body_color = GREEN
+                    p2.head_color = DARK_GREEN
 
-    pygame.quit()
-    sys.exit()
+                    ### Position of fruit
+                    x_fruit = random.randrange(20, 620, 20)
+                    y_fruit = random.randrange(20, 460, 20)
+                    fruit = (x_fruit, y_fruit)
+
+                    ### Set game speed
+                    speed = 3
+
+                if event.key == K_n :
+                    print('game ended')
+                    pygame.quit()
+                    sys.exit()
+                    pygame.display.update()
+
+            # Quit if window closed
+            if event.type == QUIT:
+                print('game ended')
+                pygame.quit()
+                sys.exit()
+                pygame.display.update()
 
 ### Screen
 screen_size = (640, 480)
